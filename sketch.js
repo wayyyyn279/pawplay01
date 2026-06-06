@@ -5,6 +5,9 @@ let score = 0;
 let objects = [];
 let particles = [];
 
+let achievementText = "";
+let achievementTimer = 0;
+
 let playButton;
 let gardenButton;
 let hunterButton;
@@ -69,6 +72,8 @@ function draw() {
 
   updateParticles();
 
+  drawAchievement();
+
   drawPawCursor();
 }
 
@@ -76,17 +81,41 @@ function drawHome() {
 
   background(250, 248, 242);
 
+  push();
+
+  translate(
+    width / 2,
+    height / 2 - 120
+  );
+
+  rotate(
+    sin(frameCount * 0.03) * 0.15
+  );
+
   textSize(90);
-  text("🐾", width / 2, height / 2 - 120);
+
+  text(
+    "🐾",
+    0,
+    0
+  );
+
+  pop();
 
   fill(40);
 
   textSize(58);
-  text("PAWPLAY", width / 2, height / 2 - 35);
+
+  text(
+    "PAWPLAY",
+    width / 2,
+    height / 2 - 35
+  );
 
   fill(120);
 
   textSize(20);
+
   text(
     "Touch • Chase • Explore",
     width / 2,
@@ -194,19 +223,13 @@ function spawnObject(list) {
 
     x: random(width),
 
-    y: random(
-      120,
-      height
-    ),
+    y: random(120, height),
 
     vx: random(-2, 2),
 
     vy: random(-2, 2),
 
-    size: random(
-      35,
-      60
-    ),
+    size: random(35, 60),
 
     emoji: random(list)
 
@@ -269,7 +292,7 @@ function drawTopBar() {
   rect(
     width - 130,
     20,
-    110,
+    140,
     42,
     20
   );
@@ -288,7 +311,7 @@ function drawTopBar() {
 
   text(
     "Score " + score,
-    width - 75,
+    width - 60,
     42
   );
 }
@@ -297,108 +320,100 @@ function mousePressed() {
 
   if (gameState === "home") {
 
-    if (
-      overButton(playButton)
-    ) {
-
+    if (overButton(playButton)) {
       gameState = "menu";
     }
+
+    return;
   }
 
-  else if (
-    gameState === "menu"
+  if (gameState === "menu") {
+
+    if (overButton(gardenButton)) {
+      startMode("garden");
+    }
+
+    if (overButton(hunterButton)) {
+      startMode("hunter");
+    }
+
+    if (overButton(bubbleButton)) {
+      startMode("bubble");
+    }
+
+    return;
+  }
+
+  if (
+
+    mouseX > 20 &&
+    mouseX < 130 &&
+    mouseY > 20 &&
+    mouseY < 62
+
   ) {
 
-    if (
-      overButton(gardenButton)
-    ) {
+    gameState = "menu";
 
-      gameState = "garden";
-      objects = [];
-      score = 0;
-    }
+    objects = [];
 
-    if (
-      overButton(hunterButton)
-    ) {
+    particles = [];
 
-      gameState = "hunter";
-      objects = [];
-      score = 0;
-    }
-
-    if (
-      overButton(bubbleButton)
-    ) {
-
-      gameState = "bubble";
-      objects = [];
-      score = 0;
-    }
+    return;
   }
 
-  else {
+  for (
 
-    if (
+    let i = objects.length - 1;
+    i >= 0;
+    i--
 
-      mouseX > 20 &&
-      mouseX < 130 &&
+  ) {
 
-      mouseY > 20 &&
-      mouseY < 62
+    let d = dist(
 
-    ) {
+      mouseX,
+      mouseY,
 
-      gameState = "menu";
+      objects[i].x,
+      objects[i].y
 
-      objects = [];
+    );
 
-      return;
-    }
+    if (d < 40) {
 
-    for (
-
-      let i =
-        objects.length - 1;
-
-      i >= 0;
-
-      i--
-
-    ) {
-
-      let d = dist(
-
-        mouseX,
-        mouseY,
-
+      explode(
         objects[i].x,
         objects[i].y
-
       );
 
-      if (d < 40) {
+      objects.splice(i, 1);
 
-        explode(
-          objects[i].x,
-          objects[i].y
-        );
+      score++;
 
-        objects.splice(i, 1);
+      checkAchievements();
 
-        score++;
-
-        break;
-      }
+      break;
     }
   }
+}
+
+function startMode(mode) {
+
+  gameState = mode;
+
+  score = 0;
+
+  objects = [];
+
+  particles = [];
 }
 
 function explode(x, y) {
 
   for (
     let i = 0;
-    i < 12;
+    i < 40;
     i++
   ) {
 
@@ -407,11 +422,13 @@ function explode(x, y) {
       x: x,
       y: y,
 
-      vx: random(-3, 3),
+      vx: random(-5, 5),
 
-      vy: random(-3, 3),
+      vy: random(-5, 5),
 
-      life: 30
+      size: random(8, 20),
+
+      life: 60
 
     });
   }
@@ -421,11 +438,8 @@ function updateParticles() {
 
   for (
 
-    let i =
-      particles.length - 1;
-
+    let i = particles.length - 1;
     i >= 0;
-
     i--
 
   ) {
@@ -443,24 +457,68 @@ function updateParticles() {
       255,
       220,
       120,
-      p.life * 8
+      p.life * 4
     );
 
     circle(
       p.x,
       p.y,
-      8
+      p.size
     );
 
-    if (
-      p.life <= 0
-    ) {
+    if (p.life <= 0) {
 
-      particles.splice(
-        i,
-        1
-      );
+      particles.splice(i, 1);
     }
+  }
+}
+
+function checkAchievements() {
+
+  if (score === 10) {
+
+    achievementText = "GOOD DOG!";
+    achievementTimer = 120;
+
+  }
+
+  if (score === 20) {
+
+    achievementText = "GREAT JOB!";
+    achievementTimer = 120;
+
+  }
+
+  if (score === 40) {
+
+    achievementText = "PAW MASTER!";
+    achievementTimer = 180;
+
+  }
+}
+
+function drawAchievement() {
+
+  if (achievementTimer > 0) {
+
+    fill(255);
+
+    stroke(0);
+
+    strokeWeight(1);
+
+    textSize(42);
+
+    text(
+
+      achievementText,
+
+      width / 2,
+      100
+
+    );
+
+    achievementTimer--;
   }
 }
 
@@ -468,26 +526,15 @@ function overButton(btn) {
 
   return (
 
-    mouseX >
-      btn.x - btn.w / 2 &&
-
-    mouseX <
-      btn.x + btn.w / 2 &&
-
-    mouseY >
-      btn.y - btn.h / 2 &&
-
-    mouseY <
-      btn.y + btn.h / 2
+    mouseX > btn.x - btn.w / 2 &&
+    mouseX < btn.x + btn.w / 2 &&
+    mouseY > btn.y - btn.h / 2 &&
+    mouseY < btn.y + btn.h / 2
 
   );
 }
 
-function drawButton(
-  btn,
-  label,
-  c
-) {
+function drawButton(btn, label, c) {
 
   rectMode(CENTER);
 
