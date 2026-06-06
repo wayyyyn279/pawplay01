@@ -229,7 +229,7 @@ function spawnObject(list) {
 
     vy: random(-2, 2),
 
-    size: random(180, 280),
+    size: random(100, 200),
 
     emoji: random(list)
 
@@ -501,20 +501,30 @@ function drawAchievement() {
 
   if (achievementTimer > 0) {
 
-    fill(255);
+    fill(
+      255,
+      235,
+      180
+    );
 
-    stroke(0);
+    stroke(
+      120,
+      80,
+      40
+    );
 
-    strokeWeight(1);
+    strokeWeight(6);
 
-    textSize(42);
+    textStyle(BOLD);
+
+    textSize(60);
 
     text(
 
       achievementText,
 
       width / 2,
-      100
+      120
 
     );
 
@@ -569,7 +579,7 @@ function drawPawCursor() {
 
   noCursor();
 
-  textSize(180);
+  textSize(100);
 
   text(
     "🐾",
