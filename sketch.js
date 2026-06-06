@@ -1,5 +1,7 @@
 let gameState = "home";
 
+let popSound;
+
 let score = 0;
 
 let objects = [];
@@ -12,6 +14,14 @@ let playButton;
 let gardenButton;
 let hunterButton;
 let bubbleButton;
+
+function preload() {
+
+  popSound = loadSound(
+    "pop.mp3"
+  );
+
+}
 
 function setup() {
 
@@ -388,6 +398,12 @@ function mousePressed() {
       );
 
       objects.splice(i, 1);
+
+    if(popSound.isPlaying()){
+    
+      popSound.stop();
+    }
+      popSound.play();
 
       score++;
 
