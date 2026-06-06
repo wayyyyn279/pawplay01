@@ -243,6 +243,8 @@ function spawnObject(list) {
 
     emoji: random(list)
 
+     noiseOffset: random(1000)
+
   });
 }
 
@@ -258,6 +260,16 @@ function updateObjects() {
 
     o.x += o.vx;
     o.y += o.vy;
+
+    o.noiseOffset += 0.01;
+    
+    o.x += map(
+      noise(o.noiseOffset),
+      0,
+      1,
+      -3,
+      3
+    );
 
     if (
       o.x < 20 ||
