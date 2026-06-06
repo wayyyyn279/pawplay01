@@ -502,22 +502,22 @@ function drawAchievement() {
   if (achievementTimer > 0) {
 
     fill(
-      255,
-      235,
-      180
+      110,
+      70,
+      35
     );
 
     stroke(
-      120,
-      80,
-      40
+      255,
+      240,
+      210
     );
 
-    strokeWeight(6);
+    strokeWeight(10);
 
     textStyle(BOLD);
 
-    textSize(60);
+    textSize(90);
 
     text(
 
