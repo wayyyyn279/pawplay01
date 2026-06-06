@@ -3,10 +3,6 @@ let gameState = "home";
 let score = 0;
 
 let objects = [];
-let particles = [];
-
-let achievementText = "";
-let achievementTimer = 0;
 
 let playButton;
 let gardenButton;
@@ -15,840 +11,460 @@ let bubbleButton;
 
 function setup() {
 
-createCanvas(
-windowWidth,
-windowHeight
-);
+  createCanvas(windowWidth, windowHeight);
 
-textAlign(
-CENTER,
-CENTER
-);
+  textAlign(CENTER, CENTER);
 
-playButton = {
-x: width / 2,
-y: height / 2 + 90,
-w: 200,
-h: 65
-};
+  playButton = {
+    x: width / 2,
+    y: height / 2 + 80,
+    w: 200,
+    h: 70
+  };
 
-gardenButton = {
-x: width / 2,
-y: height / 2 + 20,
-w: 240,
-h: 60
-};
+  gardenButton = {
+    x: width / 2,
+    y: height / 2 + 20,
+    w: 240,
+    h: 60
+  };
 
-hunterButton = {
-x: width / 2,
-y: height / 2 + 100,
-w: 240,
-h: 60
-};
+  hunterButton = {
+    x: width / 2,
+    y: height / 2 + 100,
+    w: 240,
+    h: 60
+  };
 
-bubbleButton = {
-x: width / 2,
-y: height / 2 + 180,
-w: 240,
-h: 60
-};
+  bubbleButton = {
+    x: width / 2,
+    y: height / 2 + 180,
+    w: 240,
+    h: 60
+  };
 }
 
 function draw() {
 
-if (gameState === "home") {
-drawHome();
-}
+  if (gameState === "home") {
+    drawHome();
+  }
 
-else if (gameState === "menu") {
-drawMenu();
-}
+  else if (gameState === "menu") {
+    drawMenu();
+  }
 
-else if (gameState === "garden") {
-drawGarden();
-}
+  else if (gameState === "garden") {
+    drawGarden();
+  }
 
-else if (gameState === "hunter") {
-drawHunter();
-}
+  else if (gameState === "hunter") {
+    drawHunter();
+  }
 
-else if (gameState === "bubble") {
-drawBubble();
-}
+  else if (gameState === "bubble") {
+    drawBubble();
+  }
 
-updateParticles();
-
-drawAchievement();
-
-drawPawCursor();
+  drawPawCursor();
 }
 
 function drawHome() {
 
-background(
-250,
-248,
-242
-);
+  background(250, 248, 242);
 
-push();
+  textSize(90);
+  text("🐾", width / 2, height / 2 - 120);
 
-translate(
-width / 2,
-height / 2 - 130
-);
+  fill(40);
 
-rotate(
-sin(frameCount * 0.02) * 0.05
-);
+  textSize(58);
+  text("PAWPLAY", width / 2, height / 2 - 35);
 
-textSize(90);
+  fill(120);
 
-text(
-"🐾",
-0,
-0
-);
+  textSize(20);
+  text(
+    "Touch • Chase • Explore",
+    width / 2,
+    height / 2 + 10
+  );
 
-pop();
-
-fill(40);
-
-textSize(58);
-
-text(
-"PAWPLAY",
-width / 2,
-height / 2 - 35
-);
-
-fill(120);
-
-textSize(20);
-
-text(
-"Touch • Chase • Explore",
-width / 2,
-height / 2 + 15
-);
-
-drawButton(
-playButton,
-"PLAY",
-color(
-255,
-215,
-80
-)
-);
+  drawButton(
+    playButton,
+    "PLAY",
+    color(255, 215, 80)
+  );
 }
 
 function drawMenu() {
 
-background(
-250,
-248,
-242
-);
+  background(250, 248, 242);
 
-fill(50);
+  fill(50);
 
-textSize(42);
+  textSize(42);
 
-text(
-"Choose a Mode",
-width / 2,
-height / 2 - 90
-);
+  text(
+    "Choose a Mode",
+    width / 2,
+    height / 2 - 90
+  );
 
-drawButton(
-gardenButton,
-"🌼 Sunny Garden",
-color(
-255,
-220,
-90
-)
-);
+  drawButton(
+    gardenButton,
+    "Sunny Garden",
+    color(255, 220, 90)
+  );
 
-drawButton(
-hunterButton,
-"🌙 Night Hunter",
-color(
-240,
-240,
-120
-)
-);
+  drawButton(
+    hunterButton,
+    "Night Hunter",
+    color(240, 240, 120)
+  );
 
-drawButton(
-bubbleButton,
-"🫧 Bubble Bay",
-color(
-120,
-190,
-255
-)
-);
-}
-
-function drawButton(
-btn,
-label,
-c
-) {
-
-rectMode(CENTER);
-
-fill(c);
-
-stroke(255);
-
-strokeWeight(2);
-
-rect(
-btn.x,
-btn.y,
-btn.w,
-btn.h,
-22
-);
-
-noStroke();
-
-fill(40);
-
-textSize(22);
-
-text(
-label,
-btn.x,
-btn.y
-);
-}
-
-function drawTopBar() {
-
-fill(
-255,
-240
-);
-
-stroke(180);
-
-rectMode(CORNER);
-
-rect(
-20,
-20,
-110,
-42,
-20
-);
-
-rect(
-width - 130,
-20,
-110,
-42,
-20
-);
-
-noStroke();
-
-fill(40);
-
-textSize(18);
-
-text(
-"← HOME",
-75,
-42
-);
-
-text(
-"🐾 " + score,
-width - 75,
-42
-);
-}
-
-function drawPawCursor() {
-
-noCursor();
-
-textSize(36);
-
-text(
-"🐾",
-mouseX,
-mouseY
-);
+  drawButton(
+    bubbleButton,
+    "Bubble Bay",
+    color(120, 190, 255)
+  );
 }
 
 function drawGarden() {
 
-background(
-255,
-252,
-245
-);
+  background(255, 252, 245);
 
-drawTopBar();
+  drawTopBar();
 
-if (
-frameCount % 35 === 0
-) {
+  if (frameCount % 35 === 0) {
 
-```
-spawnObject(
-  [
-    "🌼",
-    "🐝",
-    "💛",
-    "🦋"
-  ],
-  "garden"
-);
-```
+    spawnObject([
+      "🌼",
+      "🐝",
+      "💛",
+      "🦋"
+    ]);
+  }
 
-}
-
-updateObjects();
+  updateObjects();
 }
 
 function drawHunter() {
 
-background(
-10,
-10,
-20
-);
+  background(20);
 
-drawTopBar();
+  drawTopBar();
 
-if (
-frameCount % 30 === 0
-) {
+  if (frameCount % 35 === 0) {
 
-```
-spawnObject(
-  [
-    "⭐",
-    "✨",
-    "🌙",
-    "🪲"
-  ],
-  "hunter"
-);
-```
+    spawnObject([
+      "⭐",
+      "✨",
+      "🌙"
+    ]);
+  }
 
-}
-
-updateObjects();
+  updateObjects();
 }
 
 function drawBubble() {
 
-background(
-220,
-245,
-255
-);
+  background(220, 245, 255);
 
-drawTopBar();
+  drawTopBar();
 
-if (
-frameCount % 35 === 0
-) {
+  if (frameCount % 35 === 0) {
 
-```
-spawnObject(
-  [
-    "🫧",
-    "🐟",
-    "💧",
-    "🧶"
-  ],
-  "bubble"
-);
-```
+    spawnObject([
+      "🫧",
+      "🐟",
+      "💧"
+    ]);
+  }
 
+  updateObjects();
 }
 
-updateObjects();
-}
+function spawnObject(list) {
 
-function spawnObject(
-list,
-mode
-) {
+  objects.push({
 
-objects.push({
+    x: random(width),
 
-```
-x: random(width),
+    y: random(
+      120,
+      height
+    ),
 
-y: random(
-  120,
-  height
-),
+    vx: random(-2, 2),
 
-vx: random(
-  -1.5,
-  1.5
-),
+    vy: random(-2, 2),
 
-vy: random(
-  -1.5,
-  1.5
-),
+    size: random(
+      35,
+      60
+    ),
 
-size: random(
-  35,
-  60
-),
+    emoji: random(list)
 
-emoji:
-  random(list),
-
-mode: mode
-```
-
-});
+  });
 }
 
 function updateObjects() {
 
-for (
-let i =
-objects.length - 1;
-i >= 0;
-i--
-) {
+  for (
+    let i = 0;
+    i < objects.length;
+    i++
+  ) {
 
-```
-let o =
-  objects[i];
+    let o = objects[i];
 
-o.x += o.vx;
-o.y += o.vy;
+    o.x += o.vx;
+    o.y += o.vy;
 
-if (
-  o.x < 20 ||
-  o.x > width - 20
-) {
+    if (
+      o.x < 20 ||
+      o.x > width - 20
+    ) {
+      o.vx *= -1;
+    }
 
-  o.vx *= -1;
+    if (
+      o.y < 100 ||
+      o.y > height - 20
+    ) {
+      o.vy *= -1;
+    }
 
+    textSize(o.size);
+
+    text(
+      o.emoji,
+      o.x,
+      o.y
+    );
+  }
 }
 
-if (
-  o.y < 100 ||
-  o.y > height - 20
-) {
+function drawTopBar() {
 
-  o.vy *= -1;
+  fill(255);
 
-}
+  stroke(180);
 
-textSize(
-  o.size
-);
+  rectMode(CORNER);
 
-text(
-  o.emoji,
-  o.x,
-  o.y
-);
-```
+  rect(
+    20,
+    20,
+    110,
+    42,
+    20
+  );
 
-}
+  rect(
+    width - 130,
+    20,
+    110,
+    42,
+    20
+  );
+
+  fill(40);
+
+  noStroke();
+
+  textSize(18);
+
+  text(
+    "HOME",
+    75,
+    42
+  );
+
+  text(
+    "Score " + score,
+    width - 75,
+    42
+  );
 }
 
 function mousePressed() {
 
-if (
-gameState === "home"
-) {
+  if (gameState === "home") {
 
-```
-if (
-  overButton(
-    playButton
-  )
-) {
+    if (
+      overButton(
+        playButton
+      )
+    ) {
 
-  gameState =
-    "menu";
+      gameState = "menu";
+    }
+  }
 
-}
-```
-
-}
-
-else if (
-gameState === "menu"
-) {
-
-```
-if (
-  overButton(
-    gardenButton
-  )
-) {
-
-  startMode(
-    "garden"
-  );
-
-}
-
-if (
-  overButton(
-    hunterButton
-  )
-) {
-
-  startMode(
-    "hunter"
-  );
-
-}
-
-if (
-  overButton(
-    bubbleButton
-  )
-) {
-
-  startMode(
-    "bubble"
-  );
-
-}
-```
-
-}
-
-else {
-
-```
-if (
-
-  mouseX > 20 &&
-  mouseX < 130 &&
-
-  mouseY > 20 &&
-  mouseY < 62
-
-) {
-
-  gameState =
-    "menu";
-
-  objects = [];
-
-  return;
-}
-
-for (
-
-  let i =
-    objects.length - 1;
-
-  i >= 0;
-
-  i--
-
-) {
-
-  let o =
-    objects[i];
-
-  let d =
-    dist(
-
-      mouseX,
-      mouseY,
-
-      o.x,
-      o.y
-
-    );
-
-  if (
-    d < 40
+  else if (
+    gameState === "menu"
   ) {
 
-    explode(
-      o.x,
-      o.y,
-      o.mode
-    );
+    if (
+      overButton(
+        gardenButton
+      )
+    ) {
 
-    objects.splice(
-      i,
-      1
-    );
+      gameState = "garden";
+      objects = [];
+      score = 0;
+    }
 
-    score++;
+    if (
+      overButton(
+        hunterButton
+      )
+    ) {
 
-    checkAchievements();
+      gameState = "hunter";
+      objects = [];
+      score = 0;
+    }
 
-    break;
+    if (
+      overButton(
+        bubbleButton
+      )
+    ) {
+
+      gameState = "bubble";
+      objects = [];
+      score = 0;
+    }
+  }
+
+  else {
+
+    if (
+
+      mouseX > 20 &&
+      mouseX < 130 &&
+
+      mouseY > 20 &&
+      mouseY < 62
+
+    ) {
+
+      gameState = "menu";
+
+      objects = [];
+
+      return;
+    }
+
+    for (
+
+      let i =
+        objects.length - 1;
+
+      i >= 0;
+
+      i--
+
+    ) {
+
+      let d = dist(
+
+        mouseX,
+        mouseY,
+
+        objects[i].x,
+        objects[i].y
+
+      );
+
+      if (d < 40) {
+
+        objects.splice(i, 1);
+
+        score++;
+
+        break;
+      }
+    }
   }
 }
-```
 
-}
-}
+function overButton(btn) {
 
-function startMode(
-mode
-) {
+  return (
 
-gameState =
-mode;
+    mouseX >
+      btn.x - btn.w / 2 &&
 
-objects = [];
+    mouseX <
+      btn.x + btn.w / 2 &&
 
-particles = [];
+    mouseY >
+      btn.y - btn.h / 2 &&
 
-score = 0;
-}
+    mouseY <
+      btn.y + btn.h / 2
 
-function explode(
-x,
-y,
-mode
-) {
-
-for (
-let i = 0;
-i < 12;
-i++
-) {
-
-```
-particles.push({
-
-  x: x,
-  y: y,
-
-  vx:
-    random(-3,3),
-
-  vy:
-    random(-3,3),
-
-  life: 40,
-
-  mode: mode
-
-});
-```
-
-}
+  );
 }
 
-function updateParticles() {
-
-for (
-
-```
-let i =
-  particles.length - 1;
-
-i >= 0;
-
-i--
-```
-
+function drawButton(
+  btn,
+  label,
+  c
 ) {
 
-```
-let p =
-  particles[i];
+  rectMode(CENTER);
 
-p.x += p.vx;
-p.y += p.vy;
+  fill(c);
 
-p.life--;
+  stroke(255);
 
-noStroke();
+  strokeWeight(2);
 
-if (
-  p.mode ===
-  "garden"
-) {
-
-  fill(
-    255,
-    220,
-    100,
-    p.life * 5
+  rect(
+    btn.x,
+    btn.y,
+    btn.w,
+    btn.h,
+    20
   );
 
-}
+  noStroke();
 
-else if (
-  p.mode ===
-  "hunter"
-) {
+  fill(40);
 
-  fill(
-    240,
-    255,
-    100,
-    p.life * 5
+  textSize(22);
+
+  text(
+    label,
+    btn.x,
+    btn.y
   );
-
 }
 
-else {
+function drawPawCursor() {
 
-  fill(
-    120,
-    200,
-    255,
-    p.life * 5
+  noCursor();
+
+  textSize(36);
+
+  text(
+    "🐾",
+    mouseX,
+    mouseY
   );
-
-}
-
-circle(
-  p.x,
-  p.y,
-  8
-);
-
-if (
-  p.life <= 0
-) {
-
-  particles.splice(
-    i,
-    1
-  );
-
-}
-```
-
-}
-}
-
-function checkAchievements() {
-
-if (
-score === 10
-) {
-
-```
-achievementText =
-  "GOOD DOG!";
-
-achievementTimer =
-  120;
-```
-
-}
-
-if (
-score === 20
-) {
-
-```
-achievementText =
-  "GREAT JOB!";
-
-achievementTimer =
-  120;
-```
-
-}
-
-if (
-score === 40
-) {
-
-```
-achievementText =
-  "PAW MASTER!";
-
-achievementTimer =
-  180;
-```
-
-}
-}
-
-function drawAchievement() {
-
-if (
-achievementTimer > 0
-) {
-
-```
-fill(
-  255,
-  180
-);
-
-textSize(
-  42
-);
-
-text(
-
-  achievementText,
-
-  width / 2,
-  100
-
-);
-
-achievementTimer--;
-```
-
-}
-}
-
-function overButton(
-btn
-) {
-
-return (
-
-```
-mouseX >
-  btn.x -
-  btn.w / 2 &&
-
-mouseX <
-  btn.x +
-  btn.w / 2 &&
-
-mouseY >
-  btn.y -
-  btn.h / 2 &&
-
-mouseY <
-  btn.y +
-  btn.h / 2
-```
-
-);
 }
 
 function windowResized() {
 
-resizeCanvas(
-
-```
-windowWidth,
-windowHeight
-```
-
-);
+  resizeCanvas(
+    windowWidth,
+    windowHeight
+  );
 }
