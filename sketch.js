@@ -241,9 +241,9 @@ function spawnObject(list) {
 
     size: random(100, 200),
 
-    emoji: random(list)
-
-     noiseOffset: random(1000)
+    emoji: random(list),
+    
+    noiseOffset: random(1000)
 
   });
 }
@@ -267,8 +267,8 @@ function updateObjects() {
       noise(o.noiseOffset),
       0,
       1,
-      -3,
-      3
+      -5,
+      5
     );
 
     if (
