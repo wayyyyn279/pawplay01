@@ -1,4 +1,3 @@
-```javascript
 let gameState = "home";
 
 let score = 0;
@@ -243,4 +242,3 @@ function drawPawCursor() {
     mouseY
   );
 }
-```
