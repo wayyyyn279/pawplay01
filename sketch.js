@@ -3,6 +3,7 @@ let gameState = "home";
 let score = 0;
 
 let objects = [];
+let particles = [];
 
 let playButton;
 let gardenButton;
@@ -65,6 +66,8 @@ function draw() {
   else if (gameState === "bubble") {
     drawBubble();
   }
+
+  updateParticles();
 
   drawPawCursor();
 }
@@ -151,7 +154,7 @@ function drawGarden() {
 
 function drawHunter() {
 
-  background(20);
+  background(15);
 
   drawTopBar();
 
@@ -295,9 +298,7 @@ function mousePressed() {
   if (gameState === "home") {
 
     if (
-      overButton(
-        playButton
-      )
+      overButton(playButton)
     ) {
 
       gameState = "menu";
@@ -309,9 +310,7 @@ function mousePressed() {
   ) {
 
     if (
-      overButton(
-        gardenButton
-      )
+      overButton(gardenButton)
     ) {
 
       gameState = "garden";
@@ -320,9 +319,7 @@ function mousePressed() {
     }
 
     if (
-      overButton(
-        hunterButton
-      )
+      overButton(hunterButton)
     ) {
 
       gameState = "hunter";
@@ -331,9 +328,7 @@ function mousePressed() {
     }
 
     if (
-      overButton(
-        bubbleButton
-      )
+      overButton(bubbleButton)
     ) {
 
       gameState = "bubble";
@@ -384,12 +379,87 @@ function mousePressed() {
 
       if (d < 40) {
 
+        explode(
+          objects[i].x,
+          objects[i].y
+        );
+
         objects.splice(i, 1);
 
         score++;
 
         break;
       }
+    }
+  }
+}
+
+function explode(x, y) {
+
+  for (
+    let i = 0;
+    i < 12;
+    i++
+  ) {
+
+    particles.push({
+
+      x: x,
+      y: y,
+
+      vx: random(-3, 3),
+
+      vy: random(-3, 3),
+
+      life: 30
+
+    });
+  }
+}
+
+function updateParticles() {
+
+  for (
+
+    let i =
+      particles.length - 1;
+
+    i >= 0;
+
+    i--
+
+  ) {
+
+    let p = particles[i];
+
+    p.x += p.vx;
+    p.y += p.vy;
+
+    p.life--;
+
+    noStroke();
+
+    fill(
+      255,
+      220,
+      120,
+      p.life * 8
+    );
+
+    circle(
+      p.x,
+      p.y,
+      8
+    );
+
+    if (
+      p.life <= 0
+    ) {
+
+      particles.splice(
+        i,
+        1
+      );
     }
   }
 }
