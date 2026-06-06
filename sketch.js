@@ -380,7 +380,7 @@ function mousePressed() {
 
     );
 
-    if (d < 150) {
+    if (d < 60) {
 
       explode(
         objects[i].x,
@@ -579,7 +579,7 @@ function drawPawCursor() {
 
   noCursor();
 
-  textSize(100);
+  textSize(60);
 
   text(
     "🐾",
