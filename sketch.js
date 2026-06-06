@@ -229,7 +229,7 @@ function spawnObject(list) {
 
     vy: random(-2, 2),
 
-    size: random(35, 60),
+    size: random(180, 280),
 
     emoji: random(list)
 
@@ -380,7 +380,7 @@ function mousePressed() {
 
     );
 
-    if (d < 40) {
+    if (d < 150) {
 
       explode(
         objects[i].x,
@@ -569,7 +569,7 @@ function drawPawCursor() {
 
   noCursor();
 
-  textSize(36);
+  textSize(180);
 
   text(
     "🐾",
